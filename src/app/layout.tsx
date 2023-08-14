@@ -2,7 +2,7 @@ import Authprovider from '../components/Authprovider/Authprovider'
 import { Providers } from "@/redux/provider";
 import './globals.css'
 import { Inter } from 'next/font/google'
-
+import Header from  "../components/organisms/Header"
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -16,6 +16,7 @@ export default function RootLayout({ children }:any) {
       <body>
         <Authprovider>
         <Providers>
+          <Header/>
         {children}
         </Providers>
         </Authprovider>
