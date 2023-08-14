@@ -1,45 +1,43 @@
-// import Image from 'next/image'
 "use client"
-import { signOut, useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
-import {setUser,clearUser} from "@/redux/features/counterSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-
+import { useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+import { setUser, clearUser } from '@/redux/features/counterSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 export default function Home() {
   const session = useSession();
   const userData = useAppSelector(state => state);
-
-  
-    const dispatch = useAppDispatch();
-  if (session.status === "loading") {
-    return <p>Loading....</p>
-  }
-  if (session.status === "unauthenticated") {
-    redirect('/login')
-  }
-  
- 
-  dispatch(setUser(session));
+  const dispatch = useAppDispatch();
 
 
-    
+  useEffect(() => {
 
-    return (
-      <main style={{ maxWidth: 1200, marginInline: "auto", padding: 20 }}>
-        <div style={{ marginBottom: "4rem", textAlign: "center" }}>
-         
-          <button >increment</button>
-          <button
-           
-            style={{ marginInline: 16 }}
-          >
-            decrement
+    if (session) {
+      if (session.status === 'unauthenticated') {
+        redirect('/login');
+      }
+      dispatch(setUser(session));
+    }
+  }, [session.status])
+
+
+
+
+
+  return (
+
+    <div className="flex">
+      <div className="flex-1">
+        <div className="mt-8 text-center">
+
+          <button onClick={() => signOut()} className="bg-gray-500 text-white px-4 py-2 rounded mr-4">
+            Sign out
           </button>
-          <button onClick={() => signOut() }>Sign out</button>
 
-          <button>reset</button>
         </div>
-      </main>
-  )
+      </div>
+    </div>
+
+  );
 }
