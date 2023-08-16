@@ -3,6 +3,7 @@ import { Providers } from "@/redux/provider";
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Header from  "../components/organisms/Header"
+import PlayerCantainer from '@/components/organisms/PlayerCantainer';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }:any) {
         <Providers>
           <Header/>
         {children}
+        {/* <PlayerCantainer /> */}
         </Providers>
         </Authprovider>
         </body>
