@@ -9,3 +9,17 @@
   align-items: center;
   height: 100vh; /* This centers the content vertically */
 }
+
+
+.play-icon-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.play-icon-container:hover {
+  opacity: 1; /* Show on hover */
+}

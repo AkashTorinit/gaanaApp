@@ -1,18 +1,46 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-
+import { combineReducers, createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: null, // or an initial state structure for user data
+  initialState: null,
   reducers: {
     setUser: (state, action) => {
-      return action.payload; // Set the user data in the state
+      return action.payload;
     },
-    clearUser: () => null, // Clear the user data from state
+    clearUser: () => null,
+  },
+});
+
+const songSlice = createSlice({
+  name: 'song',
+  initialState: null,
+  reducers: {
+    setCurrentSong: (state, action) => {
+      return action.payload;
+    },
+    clearSong: () => null,
+  },
+});
+
+const allSongSlice = createSlice({
+  name: 'allSongs',
+  initialState: null,
+  reducers: {
+    setAllSongs: (state, action) => {
+      return action.payload;
+    },
+    clearSongs: () => null,
   },
 });
 
 export const { setUser, clearUser } = userSlice.actions;
+export const { setCurrentSong } = songSlice.actions;
+export const { setAllSongs } = allSongSlice.actions;
 
-export default userSlice.reducer;
+const rootReducer = combineReducers({
+  user: userSlice.reducer,
+  song: songSlice.reducer,
+  allSongs: allSongSlice.reducer,
+});
+
+export default rootReducer;

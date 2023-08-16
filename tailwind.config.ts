@@ -12,6 +12,7 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+          'playbutton': "url('https://a10.gaanacdn.com/gn_img/images/play_1621599900.png')"
       },
     },
   },
