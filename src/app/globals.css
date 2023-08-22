@@ -16,10 +16,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0; /* Initially hidden */
+  opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
 
 .play-icon-container:hover {
-  opacity: 1; /* Show on hover */
+  opacity: 1;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
 }

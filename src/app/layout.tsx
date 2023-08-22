@@ -17,9 +17,7 @@ export default function RootLayout({ children }:any) {
       <body>
         <Authprovider>
         <Providers>
-          <Header/>
         {children}
-        {/* <PlayerCantainer /> */}
         </Providers>
         </Authprovider>
         </body>

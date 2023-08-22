@@ -5,8 +5,6 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import GoogleIcon from "../../components/atoms/googleIcon"
 
-
-
 const Login = () => {
   const session = useSession();
   console.log(session);
@@ -14,7 +12,7 @@ const Login = () => {
     redirect('/')
   }
   return (
-    <div className="flex justify-center items-center h-screen bg-rose-600">
+    <div className="flex justify-center items-center h-screen">
       <div className="absolute inset-0">
         <Image
           src="https://raw.githubusercontent.com/AkashTorinit/images/main/pexels-jessica-lewis-583843.jpg"

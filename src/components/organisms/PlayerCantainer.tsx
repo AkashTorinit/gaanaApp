@@ -2,21 +2,23 @@
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useRef, useState } from "react";
-import ShuffleIcon from "../atoms/Shuffle";
 import PreviousIcon from "../atoms/PreviousSongIcon";
 import PlayIcon from "../atoms/PlayIcon";
 import NextSongIcon from "../atoms/NextSongIcon";
-import RepeatButtonIcon from "../atoms/RepeatButton";
 import PauseIcon from "../atoms/PauseIcon";
 import { setCurrentSong } from "@/redux/features/counterSlice";
+import { addThreeDotsAfter15Letters, convertedImages } from "../../helper";
+import ProgressBar from "../molecules/ProgressBar";
+import VolumeIcon from "../atoms/Volume";
+import SongTimer from "../molecules/SongTimer";
 
 const PlayerCantainer = () => {
   const { song, allSongs }: any = useAppSelector(state => state.rootReducer);
   const [isSongPlaying, setisSongPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
- 
-console.log("song",song)
+
+
   const dispatch = useAppDispatch();
   const initAudio = () => {
     if (audioRef.current) {
@@ -28,7 +30,7 @@ console.log("song",song)
       setisSongPlaying(!isSongPlaying);
     }
   };
-  console.log("song", audioRef)
+
 
   useEffect(() => {
     if (audioRef.current) {
@@ -38,13 +40,13 @@ console.log("song",song)
       };
     }
   }, []);
-  
+
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
     }
   };
-  
+
 
   const NextSongHandler = () => {
 
@@ -56,51 +58,55 @@ console.log("song",song)
 
 
   }
- 
-  
+
+  const handleProgressBarClick = (e: any) => {
+    const clickX = e.nativeEvent.offsetX;
+    const progressBarWidth = e.currentTarget.offsetWidth;
+    const newTime = (clickX / progressBarWidth) * audioRef?.current?.duration;
+    audioRef.current.currentTime = newTime
+  };
+
   useEffect(() => {
     if (isSongPlaying) {
       audioRef?.current?.play();
     } else {
       audioRef?.current?.pause();
     }
-  
-   
+
+
   }, [isSongPlaying, song?.previewUrl]);
-  
 
 
-
-  
-  
-  
- 
-  
- 
-  
 
   return (
-    <div className="w-full sticky bottom-0">
-      <div className="flex items-center justify-center h-1/4 ">
-        <div className="bg-white shadow-lg rounded-lg w-full">
-        <div className="relative mb-5 h-1 rounded-full bg-gray-200">
-        <div className="h-1 rounded-full bg-red-500" style={{ width: `${(currentTime / (audioRef?.current?.duration || 0)) * 100}%` }}></div>
-</div>
+    <div className="w-full sticky bottom-0 ">
+      <div className="flex items-center justify-center h-1/2  " onClick={handleProgressBarClick}>
+        <div className="  bg-white rounded-lg w-full" >
+          <ProgressBar currentTime={currentTime} duration={audioRef?.current?.duration} />
           <div className="flex bg-[#fff]">
-            <div>
-              {/* Previous and shuffle buttons */}
+
+            <div className="flex p-2 w-1/2 h-12">
+              <div className="text-black-darker mx-2 w-1/12">
+                <img
+                  alt="Placeholder"
+                  className="block h-full w-full rounded"
+                  src={convertedImages(song?.artworkUrl100)}
+                />
+              </div>
+              <div className="flex flex-col  text-black-darker">
+                <div className="text-sm">{song?.artistName && addThreeDotsAfter15Letters(song?.artistName)}</div>
+                <div className="text-sm">{song?.collectionName && addThreeDotsAfter15Letters(song?.collectionName)}</div>
+              </div>
+              <div className="text-black-darker m-5 flex items-center ">
+                <SongTimer currentTime={currentTime} duration={audioRef?.current?.duration} />
+              </div>
+
             </div>
-            <div className="w-full pt-8">
-              {/* Other UI elements */}
-              <div className="flex justify-between items-center">
-              <div className="text-black-darker">
-              <div className=" h-8 w-35  border-black-600 flex justify-center align-text-bottom bg-white rounded-full  border-2">
-                <span className="text-sm"> 00.{parseInt(currentTime || "00")} </span> <span className="text-sm"> /</span> <span className="text-sm">00.{parseInt(audioRef?.current?.duration || "00")}</span>
-</div>
-                </div>
-                <div className="text-grey-darker">
-                  <ShuffleIcon />
-                </div>
+
+            <div className="w-full pt-2">
+
+              <div className="flex justify-around items-center">
+
                 <div className="text-grey-darker">
                   <PreviousIcon />
                 </div>
@@ -114,7 +120,6 @@ console.log("song",song)
 
                       <PauseIcon />
                     ) : (
-                      // Play icon
                       <PlayIcon />
                     )}
                   </button>
@@ -124,11 +129,9 @@ console.log("song",song)
                 <div className="text-grey-darker" onClick={NextSongHandler}>
                   <NextSongIcon />
                 </div>
-                <div className="text-grey-darker"><RepeatButtonIcon /> </div>
+                <div className="text-grey-darker"><VolumeIcon /> </div>
               </div>
-              <div className="mx-8 py-4">
-                {/* Track time and progress bar */}
-              </div>
+
             </div>
           </div>
         </div>
